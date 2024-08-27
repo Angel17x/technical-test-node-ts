@@ -3,11 +3,17 @@ import { IUserRepository } from "../../domain/repositories";
 import { User } from "../../domain/schemas";
 
 export class UserRepositoryImpl implements IUserRepository {
+  findByEmailAndPassword(email: string, password: string): Promise<IUser | null> {
+    return User.findOne({ email: email, password: password }).exec();
+  }
   findAll(): Promise<IUser[]> {
     return User.find().exec();
   }
   findById(id: string): Promise<IUser | null> {
     return User.findById(id).exec();
+  }
+  findByEmail(email: string): Promise<IUser | null> {
+    return User.findOne({ email }).exec();
   }
   async create(user: IUser): Promise<IUser> {
     const userCreated = new User(user);

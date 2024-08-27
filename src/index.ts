@@ -1,32 +1,32 @@
-import express, { Express, json, Request, Response } from "express";
+import express, { Express, json } from "express";
 import dotenv from "dotenv";
 import { databaseProvider } from "./infraestructure/config/config";
 import { errorHandler, morganMiddleware } from "./application/middlewares";
 import router from "./application/routes/router";
 
-// call environment variables
+// Call environment variables
 dotenv.config();
 
-// call express server
+// Initialize express server
 const app: Express = express();
 
-// port number
+// Port number
 const port = process.env.PORT || 3000;
 
-// use express.json()
+// Use JSON parser middleware
 app.use(json());
 
-// routes
-app.use("/api", router);
-
-// use error handler
-app.use(errorHandler);
-
-// use logger (morgan)
+// Use logger middleware (Morgan)
 app.use(morganMiddleware);
 
-// database provider connection (MongoDB - Mongoose)
+// Routes
+app.use("/api", router);
+
+// Database provider connection (MongoDB - Mongoose)
 databaseProvider();
+
+// Use error handler middleware
+app.use(errorHandler);
 
 app.listen(port, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);
