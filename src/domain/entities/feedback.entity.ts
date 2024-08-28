@@ -1,5 +1,7 @@
+import mongoose from "mongoose";
+
 export interface IFeedback {
-  idEvaluation: string;
+  idEvaluation: mongoose.Schema.Types.ObjectId;
   comments: string;
   date: string;
 }

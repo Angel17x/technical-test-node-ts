@@ -1,8 +1,10 @@
-import express, { Express, json } from "express";
+import express, { Express } from "express";
 import dotenv from "dotenv";
 import { databaseProvider } from "./infraestructure/config/config";
 import { errorHandler, morganMiddleware } from "./application/middlewares";
 import router from "./application/routes/router";
+import helmet from "helmet";
+import cors from "cors";
 
 // Call environment variables
 dotenv.config();
@@ -10,11 +12,12 @@ dotenv.config();
 // Initialize express server
 const app: Express = express();
 
-// Port number
-const port = process.env.PORT || 3000;
+// USE HELMET AND CORS MIDDLEWARES
+app.use(cors({origin: "*", credentials: true}));
+app.use(helmet());
 
 // Use JSON parser middleware
-app.use(json());
+app.use(express.json());
 
 // Use logger middleware (Morgan)
 app.use(morganMiddleware);
@@ -28,6 +31,4 @@ databaseProvider();
 // Use error handler middleware
 app.use(errorHandler);
 
-app.listen(port, () => {
-  console.log(`[server]: Server is running at http://localhost:${port}`);
-});
+export default app;

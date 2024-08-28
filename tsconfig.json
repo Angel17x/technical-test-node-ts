@@ -1,4 +1,8 @@
 {
+  "ts-node": {
+    "transpileOnly": true,
+    "files": true
+  },
   "compilerOptions": {
     "module": "commonjs",
     "target": "es2021",
@@ -9,8 +13,17 @@
     "outDir": "./dist",
     "rootDir": "./src"
   },
-  "lib": ["es2021"],
-  "include": ["src/**/*.ts"],
-  "exclude": ["node_modules"],
-  
+  "lib": [
+    "es2021"
+  ],
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "./coverage",
+    "./dist",
+    "__tests__",
+    "jest.config.js",
+    "node_modules"
+  ],
 }

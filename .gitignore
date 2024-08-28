@@ -18,6 +18,10 @@ public/css/main.css
 
 # Coverage reports
 coverage
+node_modules
+coverage
+jest.config.js
+dist
 
 # API keys and secrets
 .env

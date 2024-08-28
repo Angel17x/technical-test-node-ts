@@ -1,5 +1,7 @@
 {
-  "watch": [ "src" ],
+  "watch": [
+    "src"
+  ],
   "ext": "ts",
-  "exec": "eslint src/**/*.ts && ts-node ./src/index.ts"
+  "exec": "eslint src/**/*.ts && ts-node ./src/server.ts"
 }
