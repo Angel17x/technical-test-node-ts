@@ -33,7 +33,7 @@ export class UserUseCase {
       const userDto = plainToInstance(CreateUserDto, user);
       const errors = await validate(userDto);
       if (errors.length > 0) throw new CustomError("Error creating user", StatusCodes.BAD_REQUEST, new Date(), errors);
-      const exists:boolean = this.userRepo.findByEmail(user.email) !== null;
+      const exists:boolean = await this.userRepo.findByEmail(user.email) !== null;
       if(exists) throw new CustomError("This user already exists", StatusCodes.BAD_REQUEST, new Date());
       return this.userRepo.create(user);
     } catch (error) {

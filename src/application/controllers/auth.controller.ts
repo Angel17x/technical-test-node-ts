@@ -3,10 +3,12 @@ import { UserServiceImpl } from "../services";
 import { StatusCodes } from "http-status-codes";
 import { AuthServiceImpl } from "../services/auth.service.impl";
 import { IUser } from "../../domain/entities";
+import { IUserService } from "../services/user.service";
+import { IAuthService } from "../services/auth.service";
 
 export class AuthController {
-  userService: UserServiceImpl;
-  authService: AuthServiceImpl;
+  userService: IUserService;
+  authService: IAuthService;
   constructor() {
     this.userService = new UserServiceImpl();
     this.authService = new AuthServiceImpl();

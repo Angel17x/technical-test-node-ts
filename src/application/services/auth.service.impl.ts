@@ -1,9 +1,9 @@
 import { IUser } from "../../domain/entities";
 import { AuthUseCase } from "../../domain/usecases";
-import { AuthService } from "./auth.service";
+import { IAuthService } from "./auth.service";
 import jwt from "jsonwebtoken";
 
-export class AuthServiceImpl implements AuthService {
+export class AuthServiceImpl implements IAuthService {
   authUseCase: AuthUseCase;
   constructor() {
     this.authUseCase = new AuthUseCase();

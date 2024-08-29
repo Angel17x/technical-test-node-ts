@@ -1,9 +1,10 @@
 import { NextFunction, Request, Response } from "express";
 import { UserServiceImpl } from "../services";
 import { StatusCodes } from "http-status-codes";
+import { IUserService } from "../services";
 
 export class UserController {
-  userService: UserServiceImpl;
+  userService: IUserService;
   constructor() {
     this.userService = new UserServiceImpl();
   }

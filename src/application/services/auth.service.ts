@@ -1,6 +1,6 @@
 import { IUser } from "../../domain/entities";
 
-export interface AuthService {
+export interface IAuthService {
   sign(user:{ email:string, password:string }): Promise<string>;
   verifyToken(token: string): Promise<IUser | null>;
 }
