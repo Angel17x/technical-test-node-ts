@@ -4,11 +4,11 @@ import { Employee } from "../../domain/schemas";
 
 export class EmployeeRepositoryImpl implements IEmployeeRepository {
 
-  findAll(): Promise<IEmployee[]> {
-    return Employee.find().exec();
+  async findAll(): Promise<IEmployee[]> {
+    return await Employee.find().populate('userId').lean();
   }
   findById(id: string): Promise<IEmployee | null> {
-    return Employee.findById(id).exec();
+    return Employee.findById(id).populate('userId').lean();
   }
   async create(employee: IEmployee): Promise<IEmployee> {
     const EmployeeCreated = new Employee(employee);
@@ -16,13 +16,12 @@ export class EmployeeRepositoryImpl implements IEmployeeRepository {
     return EmployeeCreated;
   }
   async update(id: string, updatedEmployee: IEmployee): Promise<IEmployee | null> {
-    const employee = await Employee.findByIdAndUpdate(id, updatedEmployee, {
+    return await Employee.findByIdAndUpdate(id, updatedEmployee, {
       new: true,
-    }).exec();
-    return employee;
+    }).lean();
   }
   async delete(id: string): Promise<boolean> {
-    const result = await Employee.findByIdAndDelete(id).exec();
+    const result = await Employee.findByIdAndDelete(id).lean();
     return result != null;
   }
 }

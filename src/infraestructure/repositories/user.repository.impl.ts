@@ -4,16 +4,16 @@ import { User } from "../../domain/schemas";
 
 export class UserRepositoryImpl implements IUserRepository {
   findByEmailAndPassword(email: string, password: string): Promise<IUser | null> {
-    return User.findOne({ email: email, password: password }).exec();
+    return User.findOne({ email: email, password: password }).lean();
   }
   findAll(): Promise<IUser[]> {
-    return User.find().exec();
+    return User.find().lean();
   }
   findById(id: string): Promise<IUser | null> {
-    return User.findById(id).exec();
+    return User.findById(id).lean();
   }
   findByEmail(email: string): Promise<IUser | null> {
-    return User.findOne({ email }).exec();
+    return User.findOne({ email }).lean();
   }
   async create(user: IUser): Promise<IUser> {
     const userCreated = new User(user);
@@ -23,11 +23,11 @@ export class UserRepositoryImpl implements IUserRepository {
   async update(id: string, updatedUser: IUser): Promise<IUser | null> {
     const user = await User.findByIdAndUpdate(id, updatedUser, {
       new: true,
-    }).exec();
+    }).lean();
     return user;
   }
   async delete(id: string): Promise<boolean> {
-    const result = await User.findByIdAndDelete(id).exec();
+    const result = await User.findByIdAndDelete(id).lean();
     return result != null;
   }
 }

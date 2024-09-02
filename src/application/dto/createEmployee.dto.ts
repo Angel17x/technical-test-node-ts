@@ -1,19 +1,16 @@
-import { IsNotEmpty, IsString, IsUUID } from "class-validator";
+import { IsEnum, IsMongoId, IsNotEmpty, IsString, IsUUID } from "class-validator";
+import { Departament } from "../enums/Departament";
 
 export class CreateEmployeeDto {
   @IsNotEmpty()
-  @IsUUID()
-  idUsuario: string;
-
-  @IsNotEmpty()
-  @IsString()
-  name: string;
+  @IsMongoId()
+  userId: string;
 
   @IsNotEmpty()
   @IsString()
   position: string;
 
   @IsNotEmpty()
-  @IsString()
-  departament: string;
+  @IsEnum(Departament)
+  departament: Departament;
 }

@@ -14,7 +14,19 @@ export class UserUseCase {
   }
   async getAllUsers(): Promise<IUser[]> {
     try {
-      return await this.userRepo.findAll();
+      const result = await this.userRepo.findAll();
+      if(result.length > 0) {
+        const users = result.map(user => ({ 
+          _id: user._id,
+          name: user.name,
+          lastname: user.lastname,
+          email: user.email,
+          role: user.role,
+         })) as IUser[];
+         
+        return users;
+      }
+      return result;
     } catch (error) {
       throw new CustomError(
         "Error fetching users",

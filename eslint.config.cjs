@@ -7,25 +7,25 @@ module.exports = {
     browser: true,
     node: true
   },
-  globals: { 
-      myCustomGlobal: "readonly",
+  globals: {
+    myCustomGlobal: "readonly",
   },
   parserOptions: {
-      ecmaVersion: 2021,
-      sourceType: "module"
+    ecmaVersion: 2021,
+    sourceType: "module"
   },
   overrides: [
     {
-        files: ["src/**/*.{js,ts}"],
-        rules: {
-            semi: ["warn", "always"]
-        }
+      files: ["src/**/*.{js,ts}"],
+      rules: {
+        semi: ["warn", "always"]
+      }
     },
     {
-        files:["test/**/*"],
-        rules: {
-            "no-console": "off"
-        }
+      files: ["test/**/*"],
+      rules: {
+        "no-console": "off"
+      }
     }
   ]
 };

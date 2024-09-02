@@ -1,9 +1,12 @@
-import mongoose from "mongoose";
+import { ICategory } from "./category.entity";
+import { IEmployee } from "./employee.entity";
 
-export interface IEvaluation {
-  idUser: mongoose.Schema.Types.ObjectId;
-  idEmployee: mongoose.Schema.Types.ObjectId;
-  date: string;
+
+export interface IEvaluation extends Document {
+  employeeId: IEmployee;
+  evaluatorId: IEmployee;
+  createAt: Date;
+  updateAt: Date;
   comments: string;
-  score: number;
+  categories: ICategory[];
 }

@@ -4,24 +4,23 @@ import { Evaluation } from "../../domain/schemas";
 
 export class EvaluationRepositoryImpl implements IEvaluationRepository {
   findAll(): Promise<IEvaluation[]> {
-    return Evaluation.find().exec();
+    return Evaluation.find().populate('employeeId').populate('evaluatorId').lean();
   }
-  findById(id: string): Promise<IEvaluation | null> {
-    return Evaluation.findById(id).exec();
+  findById(id: string): Promise<IEvaluation | undefined> {
+    return Evaluation.findById(id).populate('employeeId').populate('evaluatorId').lean();
   }
   async create(evaluation: IEvaluation): Promise<IEvaluation> {
     const EvaluationCreated = new Evaluation(evaluation);
     await EvaluationCreated.save();
     return EvaluationCreated;
   }
-  async update(id: string, updatedEvaluation: IEvaluation): Promise<IEvaluation | null> {
-    const evaluation = await Evaluation.findByIdAndUpdate(id, updatedEvaluation, {
+  async update(id: string, updatedEvaluation: IEvaluation): Promise<IEvaluation | undefined> {
+    return await Evaluation.findByIdAndUpdate(id, updatedEvaluation, {
       new: true,
-    }).exec();
-    return evaluation;
+    }).lean();
   }
   async delete(id: string): Promise<boolean> {
-    const result = await Evaluation.findByIdAndDelete(id).exec();
+    const result = await Evaluation.findByIdAndDelete(id).lean();
     return result != null;
   }
 }

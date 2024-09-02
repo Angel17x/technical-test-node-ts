@@ -14,13 +14,23 @@ export class EmployeeUseCase {
   }
   async getAllEmployees(): Promise<IEmployee[]> {
     try {
-      return await this.employeeRepo.findAll();
+      const result = await this.employeeRepo.findAll();
+      if(result.length > 0) {
+        return result.map((employee) => ({ 
+          ...employee, 
+          userId: {
+            _id: employee.userId._id,
+            name: employee.userId.name,
+            lastname: employee.userId.lastname,
+            email: employee.userId.email,
+            role: employee.userId.role,
+          }
+        })) as IEmployee[];
+      }
+      return result as IEmployee[];
     } catch (error) {
-      throw new CustomError(
-        "Error fetching employees",
-        StatusCodes.INTERNAL_SERVER_ERROR,
-        new Date()
-      );
+      if(!error) throw new CustomError("Error fetching employees", StatusCodes.INTERNAL_SERVER_ERROR, new Date());
+      throw new CustomError(error.message, StatusCodes.INTERNAL_SERVER_ERROR, new Date());
     }
   }
   async getEmployeeById(id: string): Promise<IEmployee | null> {

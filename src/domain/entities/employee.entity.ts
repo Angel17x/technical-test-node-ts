@@ -1,8 +1,7 @@
-import mongoose from "mongoose";
+import { IUser } from "./user.entity";
 
-export interface IEmployee { 
-  idUsuario: mongoose.Schema.Types.ObjectId;
-  name: string;
+export interface IEmployee extends Document { 
+  userId: IUser;
   position: string;
   departament: string;
 }

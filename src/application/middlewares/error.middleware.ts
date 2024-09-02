@@ -12,16 +12,22 @@ export function errorHandler(
 ) {
   Logger.error(err.message || "Unhandled exception");
 
+  // Asegúrate de que err no sea nulo o indefinido
   if (!err) {
     return next();
   }
 
+  // Manejo de errores personalizados
   if (err instanceof CustomError) {
-    if (err.error.length !== 0) {
-      err.error = err.error.map((err) => {
-        return err.constraints[Object.keys(err.constraints)[0]];
-      });
+    // Verifica que err.error sea un array y que no esté vacío
+    if (Array.isArray(err.error) && err.error.length !== 0) {
+      err.error = err.error.map((error) => {
+        return error.constraints ? error.constraints[Object.keys(error.constraints)[0]] : null;
+      }).filter(() => Boolean)
+    } else {
+      err.error = []; // Asegura que err.error sea un array en caso contrario
     }
+
     return res.status(err.statusCode).json({
       message: err.message,
       timestamp: err.timeStamp,
@@ -30,6 +36,7 @@ export function errorHandler(
     });
   }
 
+  // Manejo de errores de Mongoose
   if (err instanceof mongoose.Error) {
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
       message: err.message,
