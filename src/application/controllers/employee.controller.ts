@@ -38,8 +38,8 @@ export class EmployeeController {
     next: NextFunction
   ): Promise<void> => {
     try {
-      const { id } = req.params;
-      const employee = await this.employeeService.findById(id);
+      const employeeId = req.query.id as string;
+      const employee = await this.employeeService.findById(employeeId);
       res.status(StatusCodes.OK).json(employee);
     } catch (error) {
       next(error);

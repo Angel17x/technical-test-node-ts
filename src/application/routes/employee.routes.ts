@@ -12,7 +12,7 @@ const path = {
 const { getAllEmployees, getEmployeeById, createEmployee } = new EmployeeController();
 
 employeesRoutes.get(path.getAllEmployees, authMiddleware, getAllEmployees);
-employeesRoutes.get(path.createEmployee, authMiddleware, getEmployeeById);
+employeesRoutes.get(path.getEmployeeById, authMiddleware, getEmployeeById);
 employeesRoutes.post(path.createEmployee, authMiddleware, createEmployee);
 
 export default employeesRoutes;

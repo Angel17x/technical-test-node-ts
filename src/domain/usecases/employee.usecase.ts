@@ -27,15 +27,28 @@ export class EmployeeUseCase {
           }
         })) as IEmployee[];
       }
-      return result as IEmployee[];
+      return [];
     } catch (error) {
       if(!error) throw new CustomError("Error fetching employees", StatusCodes.INTERNAL_SERVER_ERROR, new Date());
       throw new CustomError(error.message, StatusCodes.INTERNAL_SERVER_ERROR, new Date());
     }
   }
   async getEmployeeById(id: string): Promise<IEmployee | null> {
-    if (id === undefined) throw new Error("Employee ID is required");
-    return this.employeeRepo.findById(id);
+    if (!id) throw new Error("Employee ID is required");
+    const employeeById = await this.employeeRepo.findById(id);
+    if(!!employeeById){
+      return { 
+        ...employeeById, 
+        userId: {
+          _id: employeeById.userId._id,
+          name: employeeById.userId.name,
+          lastname: employeeById.userId.lastname,
+          email: employeeById.userId.email,
+          role: employeeById.userId.role,
+        }
+      } as IEmployee
+    }
+    throw new CustomError('employee not found', StatusCodes.BAD_REQUEST, new Date());
   }
   async createEmployee(employee: IEmployee): Promise<IEmployee> {
     try {

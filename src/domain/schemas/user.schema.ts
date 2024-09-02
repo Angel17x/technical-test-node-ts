@@ -2,7 +2,7 @@ import mongoose, { Schema } from "mongoose";
 import { IUser } from "../entities";
 
 const UserSchema = new Schema({
-  id: { type: mongoose.Schema.Types.ObjectId },
+  _id: { type: String, default: () => new mongoose.Types.ObjectId().toString()},
   name: { type: String, required: true },
   lastname: { type: String, required: true },
   email: { type: String, required: true, unique: true },

@@ -2,7 +2,8 @@ import mongoose, { Schema } from "mongoose";
 import { IFeedback } from "../entities";
 
 const FeedbackSchema = new Schema({
-  idEvaluation: { type: mongoose.Schema.Types.ObjectId, ref: 'Evaluation', required: true },  
+  _id: { type: String, default: () => new mongoose.Types.ObjectId().toString()},
+  idEvaluation: { type: String, default: () => new mongoose.Types.ObjectId().toString(), ref: 'Evaluation', required: true },  
   date: { type: String, required: true },
   comments: { type: String, required: true },
 }, { versionKey: false });

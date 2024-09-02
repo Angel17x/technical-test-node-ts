@@ -6,13 +6,15 @@ const evaluationRoutes = Router();
 const path = {
   getAllEvaluations: "/evaluations",
   getEvaluationById: "/evaluation",
-  createEvaluation: "/create-evaluation"
+  createEvaluation: "/create-evaluation",
+  updateEvaluation: "/update-evaluation"
 };
 
-const { getAllEvaluations, getEvaluationById, createEvaluation } = new EvaluationController();
+const { getAllEvaluations, getEvaluationById, createEvaluation, updateEvaluation } = new EvaluationController();
 
 evaluationRoutes.get(path.getAllEvaluations, authMiddleware, getAllEvaluations);
-evaluationRoutes.get(path.createEvaluation, authMiddleware, getEvaluationById);
+evaluationRoutes.get(path.getEvaluationById, authMiddleware, getEvaluationById);
 evaluationRoutes.post(path.createEvaluation, authMiddleware, createEvaluation);
+evaluationRoutes.put(path.updateEvaluation, authMiddleware, updateEvaluation);
 
 export default evaluationRoutes;

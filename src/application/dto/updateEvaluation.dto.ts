@@ -6,6 +6,7 @@ import { ICategory } from "../../domain/entities";
 export class UpdateEvaluationDto {
   
   @IsString()
+  @IsOptional()
   comments: string;
 
   @IsArray()
