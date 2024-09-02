@@ -1,6 +1,6 @@
 import { StatusCodes } from "http-status-codes";
 import { EvaluationRepositoryImpl } from "../../infraestructure/repositories";
-import { IEvaluation } from "../entities";
+import { ICategory, IEvaluation } from "../entities";
 import { CustomError } from "../exceptions/CustomException";
 import { plainToInstance } from "class-transformer";
 import { validate } from "class-validator";
@@ -74,7 +74,7 @@ export class EvaluationUseCase {
     );
     const errors = await validate(evaluationDto);
     if(errors.length > 0) throw new CustomError('evaluation update error', StatusCodes.BAD_REQUEST, new Date(), errors);
-    const newCategories = [...evaluation.categories, ...updatedEvaluation.categories]; 
+    const newCategories = this._updateCategories(evaluation.categories, updatedEvaluation.categories); 
     const updatedData = { 
       employeeId: evaluation.employeeId,
       evaluatorId: evaluation.evaluatorId,
@@ -89,5 +89,18 @@ export class EvaluationUseCase {
 
   async deleteEvaluation(id: string): Promise<boolean> {
     return this.evaluationRepository.delete(id);
+  }
+
+  private _updateCategories(oldCategories: ICategory[], newCategories: ICategory[]): ICategory[] {
+    const mergedCategories = oldCategories.map((x) => {  
+      const category = newCategories.find((e) => x.name === e.name);  
+      return category !== undefined ? category : x;  
+    });  
+    
+    const result = [  
+      ...mergedCategories,  
+      ...newCategories.filter(newCat => !oldCategories.some(cat => cat.name === newCat.name))  
+    ];  
+    return result;
   }
 }
