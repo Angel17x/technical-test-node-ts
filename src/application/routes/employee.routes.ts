@@ -5,7 +5,7 @@ import { authMiddleware } from "../middlewares";
 const employeesRoutes = Router();
 const path = {
   getAllEmployees: "/employees",
-  getEmployeeById: "/employee",
+  getEmployeeById: "/employees/:id",
   createEmployee: "/create-employee"
 };
 

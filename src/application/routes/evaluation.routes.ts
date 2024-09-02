@@ -5,15 +5,17 @@ import { authMiddleware } from "../middlewares";
 const evaluationRoutes = Router();
 const path = {
   getAllEvaluations: "/evaluations",
-  getEvaluationById: "/evaluation",
-  createEvaluation: "/create-evaluation",
-  updateEvaluation: "/update-evaluation"
+  getEvaluationById: "/evaluations/:id",
+  getEvaluationByEmployeeId: "/evaluations/employee/:id",
+  createEvaluation: "/evaluations",
+  updateEvaluation: "/evaluations/:id"
 };
 
-const { getAllEvaluations, getEvaluationById, createEvaluation, updateEvaluation } = new EvaluationController();
+const { getAllEvaluations, getEvaluationById, getEvaluationByEmployeeId, createEvaluation, updateEvaluation } = new EvaluationController();
 
 evaluationRoutes.get(path.getAllEvaluations, authMiddleware, getAllEvaluations);
 evaluationRoutes.get(path.getEvaluationById, authMiddleware, getEvaluationById);
+evaluationRoutes.get(path.getEvaluationByEmployeeId, authMiddleware, getEvaluationByEmployeeId);
 evaluationRoutes.post(path.createEvaluation, authMiddleware, createEvaluation);
 evaluationRoutes.put(path.updateEvaluation, authMiddleware, updateEvaluation);
 

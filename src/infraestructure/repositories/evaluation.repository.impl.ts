@@ -3,11 +3,17 @@ import { IEvaluationRepository } from "../../domain/repositories";
 import { Evaluation } from "../../domain/schemas";
 
 export class EvaluationRepositoryImpl implements IEvaluationRepository {
-  findAll(): Promise<IEvaluation[]> {
-    return Evaluation.find().populate('employeeId').populate('evaluatorId').lean();
+  
+  async findAll(): Promise<IEvaluation[]> {
+    return await Evaluation.find().populate('employeeId').populate('evaluatorId').lean();
   }
-  findById(id: string): Promise<IEvaluation | undefined> {
-    return Evaluation.findById(id).populate('employeeId').populate('evaluatorId').lean();
+  async findById(id: string): Promise<IEvaluation | undefined> {
+    return await Evaluation.findById(id).populate('employeeId').populate('evaluatorId').lean();
+  }
+  findByEmployeeId(employeeId: string): Promise<IEvaluation[] | undefined> {
+    return Evaluation.find({
+        employeeId
+    }).populate('employeeId').populate('evaluatorId').lean();
   }
   async create(evaluation: IEvaluation): Promise<IEvaluation> {
     const EvaluationCreated = new Evaluation(evaluation);

@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { EvaluationServiceImpl } from "../services";
 import { StatusCodes } from "http-status-codes";
 import { IEvaluationService } from "../services";
-import { IEvaluation } from "../../domain/entities";
+import { ICategory, IEvaluation } from "../../domain/entities";
 
 export class EvaluationController {
   EvaluationService: IEvaluationService;
@@ -40,8 +40,22 @@ export class EvaluationController {
     next: NextFunction
   ): Promise<Response<IEvaluation>> => {
     try {
-      const idEvaluation = req.query.id as string;
+      const idEvaluation = req.params.id;
       const evaluation = await this.EvaluationService.findById(idEvaluation);
+      return res.status(StatusCodes.OK).json(evaluation);
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  getEvaluationByEmployeeId = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<Response<ICategory>> => {
+    try {
+      const idEmployee = req.params.id;
+      const evaluation = await this.EvaluationService.findByEmployeeId(idEmployee);
       return res.status(StatusCodes.OK).json(evaluation);
     } catch (error) {
       next(error);
@@ -54,9 +68,9 @@ export class EvaluationController {
     next: NextFunction
   ): Promise<Response<IEvaluation>> => {
     try {
-      const { id } = req.query;
+      const id = req.params.id;
       const evaluation = req.body;
-      const updateEvaluation = await this.EvaluationService.update(id as string, evaluation);
+      const updateEvaluation = await this.EvaluationService.update(id, evaluation);
       if (updateEvaluation) {
         return res.status(StatusCodes.OK).json(updateEvaluation);
       } 

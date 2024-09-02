@@ -1,4 +1,4 @@
-import { IEvaluation } from "../../domain/entities";
+import { ICategory, IEvaluation } from "../../domain/entities";
 import { EvaluationUseCase } from "../../domain/usecases";
 import { IEvaluationService } from "./evaluation.service";
 
@@ -12,6 +12,9 @@ export class EvaluationServiceImpl implements IEvaluationService {
   }
   findById(id: string): Promise<IEvaluation | null> {
     return this.EvaluationUseCase.getEvaluationById(id);
+  }
+  findByEmployeeId(employeeId: string): Promise<ICategory[] | null> {
+    return this.EvaluationUseCase.getEvaluationByEmployeeId(employeeId);
   }
   create(evaluation: IEvaluation): Promise<IEvaluation> {
     return this.EvaluationUseCase.createEvaluation(evaluation);
